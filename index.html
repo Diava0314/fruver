@@ -1,0 +1,75 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="libs/bootstrap-5.0.2/css/bootstrap.min.css" />
+  </head>
+  <body>
+    <header class="border border-bottom">
+      <div>
+        <img src="images/fruver-cartel.png" />
+      </div>
+      <div>
+        <a href="#">Acerca de</a>
+        <a href="#">Cotizaciones</a>
+        <a href="#">Contacto</a>
+      </div>
+    </header>
+    <div class="main-container">
+      <div class="mb-3">
+        <!-- 
+          Entidad fruta:
+          - propiedades:                          //Tipo de campo en formulario
+            nombre              -> name           -> text        
+            fechaVencimiento    -> expiryDate     -> date
+            precio              -> price          -> text
+            cantidad            -> quantity       -> number
+        -->
+        <form>
+          <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="form-control" name="name" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Fecha de vencimiento</label>
+            <input type="date" class="form-control" name="expiryDate" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Precio</label>
+            <input type="text" class="form-control" name="price" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Cantidad</label>
+            <input type="number" class="form-control" name="quantity" />
+          </div>
+          <button type="aceptar" class="btn btn-primary">aceptar</button>
+        </form>
+      </div>
+      <!--Tabla de frutas-->
+      <div>
+        <h3>Listado de productos</h3>
+        <table class="table" id="fruits-table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Fecha de vencimiento</th>
+              <th scope="col">Precio</th>
+              <th scope="col">Cantidad</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <footer>© 2022</footer>
+
+    <!-- Scripts region -->
+
+    <!--1. Primero se carga la librería de bootstrap-->
+    <script src="libs/bootstrap-5.0.2/js/bootstrap.min.js"></script>
+    <!--2. se cargan los mocks con los datos de pruebas para poderlos programar en el index.js-->
+    <script src="mocks/fruits.js"></script>
+    <!--3. Desde el index.js podemos acceder a las funciones de bootstrap y los mocks -->
+    <script src="index.js"></script>
+  </body>
+</html>
