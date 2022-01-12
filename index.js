@@ -1,59 +1,66 @@
-/**
- * DOM (Document object model) -> document
- */
-
-//1. Consigo el cuerpo de la tabla
+//Consigo el cuerpo de la tabla
 const fruitsTableBody = document.querySelector('#fruits-table > tbody');
 
-//2. Creo una fila con su contenido
-const fruitRow1 = document.createElement('tr');
-fruitRow1.innerHTML = `
-<th scope="row">1</th>
-<td>${fruit1.name}</td>
-<td>${fruit1.expiryDate}</td>
-<td>${fruit1.price}</td>
-<td>${fruit1.quantity}</td>
-`;
+//Consigo el botón de agregar fruta
+const addFruitButton = document.getElementById('add-fruit-button');
+addFruitButton.addEventListener('click', addFruit);
 
-const fruitRow2 = document.createElement('tr');
-fruitRow2.innerHTML = `
-<th scope="row">2</th>
-<td>${fruit2.name}</td>
-<td>${fruit2.expiryDate}</td>
-<td>${fruit2.price}</td>
-<td>${fruit2.quantity}</td>
-`;
+//Conseguir el formulario
+const fruitForm = document.getElementById('fruit-form');
 
-const fruitRow3 = document.createElement('tr');
-fruitRow3.innerHTML = `
-<th scope="row">3</th>
-<td>${fruit3.name}</td>
-<td>${fruit3.expiryDate}</td>
-<td>${fruit3.price}</td>
-<td>${fruit3.quantity}</td>
-`;
+//Conseguir cada uno de los campos del formulario
+const nameField = document.querySelector('[name="name"]');
+const expiryDateField = document.querySelector('[name="expiryDate"]');
+const priceField = document.querySelector('[name="price"]');
+const quantityField = document.querySelector('[name="quantity"]');
 
-const fruitRow4 = document.createElement('tr');
-fruitRow4.innerHTML = `
-<th scope="row">4</th>
-<td>${fruit4.name}</td>
-<td>${fruit4.expiryDate}</td>
-<td>${fruit4.price}</td>
-<td>${fruit4.quantity}</td>
-`;
+/**
+ * Se programaron cada uno de los elementos del formulario para obtener cada uno de
+ * los valores de la entidad fruta.
+ */
+const currentFruit = { name: '', expiryDate: '', price: '', quantity: '' };
 
-const fruitRow5 = document.createElement('tr');
-fruitRow5.innerHTML = `
-  <th scope="row">5</th>
-  <td>${fruit5.name}</td>
-  <td>${fruit5.expiryDate}</td>
-  <td>${fruit5.price}</td>
-  <td>${fruit5.quantity}</td>
-`;
+nameField.addEventListener('input', (event) => {
+  currentFruit.name = event.target.value;
+});
 
-//3. Agrego la fila al cuerpo de la tabla
-fruitsTableBody.appendChild(fruitRow1);
-fruitsTableBody.appendChild(fruitRow2);
-fruitsTableBody.appendChild(fruitRow3);
-fruitsTableBody.appendChild(fruitRow4);
-fruitsTableBody.appendChild(fruitRow5);
+expiryDateField.addEventListener('input', (event) => {
+  currentFruit.expiryDate = event.target.value;
+});
+
+priceField.addEventListener('input', (event) => {
+  currentFruit.price = event.target.value;
+});
+
+quantityField.addEventListener('input', (event) => {
+  currentFruit.quantity = event.target.value;
+});
+
+//Función para agregar o crear una fruta: CREATE
+function addFruit() {
+  fruits.push(Object.assign({}, currentFruit));
+  listFruits();
+  fruitForm.reset();
+}
+
+//Función para mostrar el listado de frutas
+function listFruits() {
+  //Borramos el pizarrón para poder redibujar el array con forEach
+  fruitsTableBody.innerHTML = '';
+
+  //El forEach redibuja cada una de las filas y columnas de la tabla
+  fruits.forEach((fruit, index) => {
+    const fruitRow = document.createElement('tr');
+    fruitRow.innerHTML = `
+      <th scope="row">${index + 1}</th>
+      <td>${fruit.name}</td>
+      <td>${fruit.expiryDate}</td>
+      <td>${fruit.price}</td>
+      <td>${fruit.quantity}</td>
+    `;
+    fruitsTableBody.appendChild(fruitRow);
+  });
+}
+
+//Se invoca el listado de frutas cuando inicia el programa
+listFruits();
