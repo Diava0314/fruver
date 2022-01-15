@@ -2,6 +2,7 @@
   <head>
     <link rel="stylesheet" href="index.css" />
     <link rel="stylesheet" href="libs/bootstrap-5.0.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="libs/fontawesome-free-6.0.0/css/all.min.css" />
   </head>
   <body>
     <header class="border border-bottom">
@@ -42,9 +43,15 @@
             <input type="number" class="form-control" name="quantity" />
           </div>
           <!--El botón debe ser de tipo button para que la página no se refresque-->
-          <button id="add-fruit-button" type="button" class="btn btn-primary">
-            aceptar
-          </button>
+          <div id="fruit-buttons-container">
+            <button
+              id="action-fruit-button"
+              type="button"
+              class="btn btn-primary"
+            >
+              Crear
+            </button>
+          </div>
         </form>
       </div>
       <!--Tabla de frutas-->
@@ -58,6 +65,7 @@
               <th scope="col">Fecha de vencimiento</th>
               <th scope="col">Precio</th>
               <th scope="col">Cantidad</th>
+              <th scope="col">Acciones</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -67,9 +75,10 @@
     <footer>© 2022</footer>
 
     <!-- Scripts region -->
-
-    <!--1. Primero se carga la librería de bootstrap-->
+    <!--Primero se cargan las librerías-->
     <script src="libs/bootstrap-5.0.2/js/bootstrap.min.js"></script>
+
+    <!--Luego se cargan nuestros scripts-->
     <!--2. se cargan los mocks con los datos de pruebas para poderlos programar en el index.js-->
     <script src="mocks/fruits.js"></script>
     <!--3. Desde el index.js podemos acceder a las funciones de bootstrap y los mocks -->
