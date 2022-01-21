@@ -22,6 +22,9 @@ const expiryDateField = document.querySelector('[name="expiryDate"]');
 const priceField = document.querySelector('[name="price"]');
 const quantityField = document.querySelector('[name="quantity"]');
 
+//Variable para almacenar el índice de un registro
+let fruitIndex = undefined;
+
 /**
  * Se programaron cada uno de los elementos del formulario para obtener cada uno de
  * los valores de la entidad fruta.
@@ -49,11 +52,11 @@ function fruitFormAction() {
   switch (fruitFormMode) {
     case 'create':
       //Se ejecuta la función de crear la fruta
-      alert('Voy a crear una fruta');
+      createFruit();
       break;
     case 'update':
       //Se ejecuta la función de actualizar la fruta
-      alert('Voy a actualizar una fruta');
+      updateFruit();
       break;
     default:
       break;
@@ -83,7 +86,7 @@ function handleCancelFruitActionButton() {
   switch (fruitFormMode) {
     case 'create':
       //Debemos borrar el botón cancelar
-      alert('Debemos borrar el botón cancelar');
+      document.getElementById('cancel-fruit-button').remove();
       break;
     case 'update':
       //Si el botón de cancelar ya existe, no añadimos otro botón de cancelar
@@ -122,10 +125,33 @@ function createFruit() {
   fruitForm.reset();
 }
 
+//Función para actualizar una fruta: UPDATE
+function updateFruit() {
+  //1. Se modifica la fruta en la posición del indice con el valor de la fruta actual.
+  fruits[fruitIndex] = Object.assign({}, currentFruit);
+  //2. Redibujamos los registros de la tabla de frutas.
+  listFruits();
+  //3. Limpiar el formulario
+  fruitForm.reset();
+  //4 Cambiar el modo del formulario a crear
+  fruitFormMode = 'create';
+  changeActionFruitButtonText();
+  handleCancelFruitActionButton();
+}
+
+//Función para eliminar una fruta: DELETE
+function deleteFruit(index) {
+  fruits = fruits.filter((_, i) => {
+    return i !== index;
+  });
+  listFruits();
+}
+
 //Función para cargar la fruta en el formulario
 function loadFruitInForm(index) {
   //Se cambia el modo del formulario a actualizar cuando se carga una fruta al formulario
   fruitFormMode = 'update';
+  fruitIndex = index;
   currentFruit = Object.assign({}, fruits[index]);
   nameField.value = currentFruit.name;
   expiryDateField.value = currentFruit.expiryDate;
@@ -147,7 +173,7 @@ function listFruits() {
   //El forEach redibuja cada una de las filas y columnas de la tabla
   fruits.forEach((fruit, index) => {
     const fruitRow = document.createElement('tr');
-    fruitRow.innerHTML = `
+    fruitRow.innerHTML = /*html */ `
       <th scope="row">${index + 1}</th>
       <td>${fruit.name}</td>
       <td>${fruit.expiryDate}</td>
@@ -162,10 +188,19 @@ function listFruits() {
         >
           <i class="fas fa-pen"></i>
         </button>
-        <button type="button" class="btn btn-info text-white" title="Ver registro">
+        <button 
+          type="button" 
+          class="btn btn-info text-white" 
+          title="Ver registro"
+          onclick="showFruit(${index})"
+        >
           <i class="fas fa-eye"></i>
         </button>
-        <button type="button" class="btn btn-danger" title="Eliminar">
+        <button 
+          type="button" class="btn btn-danger" 
+          title="Eliminar"
+          onclick="deleteFruit(${index})"
+        >
           <i class="fas fa-trash-alt"></i>
         </button>
       </td>
@@ -176,3 +211,29 @@ function listFruits() {
 
 //Se invoca el listado de frutas cuando inicia el programa
 listFruits();
+
+/**
+ * Modal de bootstrap
+ * 1. Declaramos una constante donde se va a guardar la ventana modal de bs.
+ * 2. Creamos una nueva instancia con la clase de boostrap new bootstrap.Modal
+ * 3. Dentro de la clase vamos a añadir el elemento html de la ventana modal
+ */
+
+const modalHtmlElement = document.getElementById('view-fruit');
+const boostrapModal = new bootstrap.Modal(modalHtmlElement);
+
+//Función que invoca el detalle de la fruta en una modal
+function showFruit(index) {
+  const modalTitle = document.querySelector('#view-fruit .modal-title');
+  const modalBody = document.querySelector('#view-fruit .modal-body');
+  boostrapModal.show();
+  modalBody.innerHTML = `
+    <ul>
+      <li><b>Nombre:</b> ${fruits[index].name}</li>
+      <li><b>Precio:</b> $${fruits[index].price}</li>
+      <li><b>Cantidad:</b> ${fruits[index].quantity}</li>
+      <li><b>Fecha de vencimiento:</b> ${fruits[index].expiryDate}</li>
+    </ul>
+  `;
+  modalTitle.innerText = fruits[index].name;
+}

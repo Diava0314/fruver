@@ -1,4 +1,4 @@
-const fruits = [
+let fruits = [
   //0
   {
     name: 'Aguacate',
